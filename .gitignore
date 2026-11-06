@@ -1,0 +1,23 @@
+# Checkers proporcionados por 42
+checker_Mac
+checker_linux
+fedora_checker
+
+# Subject
+es.subject.pdf
+*.pdf
+
+# Objetos y binarios de compilación
+*.o
+*.a
+push_swap
+checker
+
+# macOS
+.DS_Store
+
+# Debug
+*.dSYM/
+
+# Editor
+.vscode/
