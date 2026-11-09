@@ -6,7 +6,7 @@
 /*   By: fmesci <fmesci@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/06 12:30:57 by fmesci            #+#    #+#             */
-/*   Updated: 2026/11/09 13:56:02 by fmesci           ###   ########.fr       */
+/*   Updated: 2026/11/09 16:30:43 by fmesci           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,5 +43,6 @@ t_node	*new_node(int value);
 void	stack_add_back(t_stack *stack, t_node *node);
 int		has_duplicate(t_stack *stack, int value);
 void	free_stack(t_stack *stack);
+int		build_stack(t_stack *a, int argc, char **argv);
 
 #endif

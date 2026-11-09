@@ -6,7 +6,7 @@
 /*   By: fmesci <fmesci@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/09 10:23:56 by fmesci            #+#    #+#             */
-/*   Updated: 2026/11/09 11:31:39 by fmesci           ###   ########.fr       */
+/*   Updated: 2026/11/09 16:24:54 by fmesci           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,5 +38,27 @@ int	ft_atoi_safe(const char *str, int *out)
 		i++;
 	}
 	*out = result * signo;
+	return (1);
+}
+
+int	build_stack(t_stack *a, int argc, char **argv)
+{
+	int		i;
+	int		n;
+	t_node	*node;
+
+	i = 1;
+	while (i < argc)
+	{
+		if (ft_atoi_safe(argv[i], &n) == 0)
+			return (0);
+		if (has_duplicate(a, n) == 1)
+			return (0);
+		node = new_node(n);
+		if (node == NULL)
+			return (0);
+		stack_add_back(a, node);
+		i++;
+	}
 	return (1);
 }
