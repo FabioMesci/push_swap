@@ -6,7 +6,7 @@
 /*   By: fmesci <fmesci@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/06 12:07:00 by fmesci            #+#    #+#             */
-/*   Updated: 2026/11/06 17:01:46 by fmesci           ###   ########.fr       */
+/*   Updated: 2026/11/09 10:03:36 by fmesci           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ int	main(int argc, char **argv)
 
 	(void)argc;
 	(void)argv;
-
 	ft_bzero(&p, sizeof(p));
 	return (0);
 }
