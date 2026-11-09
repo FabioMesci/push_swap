@@ -6,7 +6,7 @@
 /*   By: fmesci <fmesci@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/06 12:30:57 by fmesci            #+#    #+#             */
-/*   Updated: 2026/11/09 11:41:46 by fmesci           ###   ########.fr       */
+/*   Updated: 2026/11/09 13:56:02 by fmesci           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,5 +39,9 @@ typedef struct s_ps
 
 void	ft_bzero(void *s, size_t n);
 int		ft_atoi_safe(const char *str, int *out);
+t_node	*new_node(int value);
+void	stack_add_back(t_stack *stack, t_node *node);
+int		has_duplicate(t_stack *stack, int value);
+void	free_stack(t_stack *stack);
 
 #endif
