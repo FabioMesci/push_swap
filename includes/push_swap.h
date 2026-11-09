@@ -6,7 +6,7 @@
 /*   By: fmesci <fmesci@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/06 12:30:57 by fmesci            #+#    #+#             */
-/*   Updated: 2026/11/06 16:57:59 by fmesci           ###   ########.fr       */
+/*   Updated: 2026/11/09 11:41:46 by fmesci           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include <unistd.h>
 # include <stdlib.h>
+# include <limits.h>
 
 typedef struct s_node
 {
@@ -37,5 +38,6 @@ typedef struct s_ps
 }	t_ps;
 
 void	ft_bzero(void *s, size_t n);
+int		ft_atoi_safe(const char *str, int *out);
 
 #endif

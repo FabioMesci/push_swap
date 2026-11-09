@@ -3,7 +3,7 @@ CC = cc
 CFLAGS = -Wall -Wextra -Werror -I includes
 RM = rm -f
 
-SRCS = srcs/main.c srcs/utils.c
+SRCS = srcs/main.c srcs/utils.c srcs/parsing.c
 OBJS = $(SRCS:.c=.o)
 
 all: $(NAME)
