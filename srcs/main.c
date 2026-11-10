@@ -6,7 +6,7 @@
 /*   By: fmesci <fmesci@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/06 12:07:00 by fmesci            #+#    #+#             */
-/*   Updated: 2026/11/09 16:32:41 by fmesci           ###   ########.fr       */
+/*   Updated: 2026/11/10 14:17:11 by fmesci           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,20 @@
 int	main(int argc, char **argv)
 {
 	t_ps	p;
+	int		start;
 
-	if (argc < 2)
-		return (0);
 	ft_bzero(&p, sizeof(p));
-	if (build_stack(&p.a, argc, argv) == 0)
+	start = parse_flags(argc, argv, &p);
+	if (start == -1)
+	{
+		write(2, "Error\n", 6);
+		return (1);
+	}
+	if (start == argc)
+		return (0);
+	if (p.strategy == NULL)
+		p.strategy = "--adaptive";
+	if (build_stack(&p.a, argc, argv, start) == 0)
 	{
 		free_stack(&p.a);
 		write(2, "Error\n", 6);
