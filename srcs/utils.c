@@ -6,7 +6,7 @@
 /*   By: fmesci <fmesci@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/06 16:52:34 by fmesci            #+#    #+#             */
-/*   Updated: 2026/11/10 11:19:50 by fmesci           ###   ########.fr       */
+/*   Updated: 2026/11/10 17:25:02 by fmesci           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,4 +34,16 @@ int	ft_strcmp(const char *s1, const char *s2)
 	while (s1[i] != '\0' && s2[i] != '\0' && s1[i] == s2[i])
 		i++;
 	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
+}
+
+size_t	ft_strlen(const char *str)
+{
+	size_t	i;
+
+	i = 0;
+	while (str[i] != '\0')
+	{
+		i++;
+	}
+	return (i);
 }

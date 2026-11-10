@@ -6,11 +6,29 @@
 /*   By: fmesci <fmesci@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/06 12:07:00 by fmesci            #+#    #+#             */
-/*   Updated: 2026/11/10 14:17:11 by fmesci           ###   ########.fr       */
+/*   Updated: 2026/11/10 17:50:07 by fmesci           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
+
+static void	free_all(t_ps *p)
+{
+	free_stack(&p->a);
+	free_stack(&p->b);
+}
+
+static int	exit_with_error(t_ps *p)
+{
+	free_all(p);
+	write(2, "Error\n", 6);
+	return (1);
+}
+
+static void	execute(t_ps *p)
+{
+	(void)p;
+}
 
 int	main(int argc, char **argv)
 {
@@ -20,20 +38,14 @@ int	main(int argc, char **argv)
 	ft_bzero(&p, sizeof(p));
 	start = parse_flags(argc, argv, &p);
 	if (start == -1)
-	{
-		write(2, "Error\n", 6);
-		return (1);
-	}
+		return (exit_with_error(&p));
 	if (start == argc)
 		return (0);
 	if (p.strategy == NULL)
 		p.strategy = "--adaptive";
 	if (build_stack(&p.a, argc, argv, start) == 0)
-	{
-		free_stack(&p.a);
-		write(2, "Error\n", 6);
-		return (1);
-	}
-	free_stack(&p.a);
+		return (exit_with_error(&p));
+	execute(&p);
+	free_all(&p);
 	return (0);
 }
