@@ -6,7 +6,7 @@
 /*   By: fmesci <fmesci@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/06 12:30:57 by fmesci            #+#    #+#             */
-/*   Updated: 2026/11/10 17:25:09 by fmesci           ###   ########.fr       */
+/*   Updated: 2026/11/10 19:02:05 by fmesci           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ typedef struct s_ps
 	int			ops[OP_COUNT];
 	const char	*strategy;
 	int			bench;
+	double		disorder;
 }	t_ps;
 
 /* utils.c */
