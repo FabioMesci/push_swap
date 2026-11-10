@@ -6,7 +6,7 @@
 /*   By: fmesci <fmesci@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/06 12:30:57 by fmesci            #+#    #+#             */
-/*   Updated: 2026/11/10 13:40:11 by fmesci           ###   ########.fr       */
+/*   Updated: 2026/11/10 16:38:34 by fmesci           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,22 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <limits.h>
+
+typedef enum e_op
+{
+	OP_SA,
+	OP_SB,
+	OP_SS,
+	OP_PA,
+	OP_PB,
+	OP_RA,
+	OP_RB,
+	OP_RR,
+	OP_RRA,
+	OP_RRB,
+	OP_RRR,
+	OP_COUNT
+}	t_op;
 
 typedef struct s_node
 {
@@ -34,7 +50,7 @@ typedef struct s_ps
 {
 	t_stack		a;
 	t_stack		b;
-	int			ops[11];
+	int			ops[OP_COUNT];
 	const char	*strategy;
 	int			bench;
 }	t_ps;
