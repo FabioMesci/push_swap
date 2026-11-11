@@ -6,7 +6,7 @@
 /*   By: fmesci <fmesci@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/06 12:30:57 by fmesci            #+#    #+#             */
-/*   Updated: 2026/11/11 12:38:16 by fmesci           ###   ########.fr       */
+/*   Updated: 2026/11/11 18:01:33 by fmesci           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,5 +88,18 @@ void		log_op(t_ps *p, t_op op);
 /* ops_push.c */
 void		pa(t_ps *p);
 void		pb(t_ps *p);
+
+/* ops_rotate.c */
+void		ra(t_ps *p);
+void		rb(t_ps *p);
+void		rr(t_ps *p);
+
+/* ops_rrotate.c */
+void		rra(t_ps *p);
+void		rrb(t_ps *p);
+void		rrr(t_ps *p);
+
+/* stack_utils.c*/
+t_node		*stack_last(t_stack *s);
 
 #endif
