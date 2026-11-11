@@ -6,7 +6,7 @@
 /*   By: fmesci <fmesci@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/06 12:30:57 by fmesci            #+#    #+#             */
-/*   Updated: 2026/11/11 18:01:33 by fmesci           ###   ########.fr       */
+/*   Updated: 2026/11/11 18:21:53 by fmesci           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,11 @@ void		rr(t_ps *p);
 void		rra(t_ps *p);
 void		rrb(t_ps *p);
 void		rrr(t_ps *p);
+
+/* ops_swap.c */
+void		sa(t_ps *p);
+void		sb(t_ps *p);
+void		ss(t_ps *p);
 
 /* stack_utils.c*/
 t_node		*stack_last(t_stack *s);
