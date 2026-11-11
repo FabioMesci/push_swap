@@ -6,7 +6,7 @@
 /*   By: fmesci <fmesci@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/06 12:30:57 by fmesci            #+#    #+#             */
-/*   Updated: 2026/11/10 19:02:05 by fmesci           ###   ########.fr       */
+/*   Updated: 2026/11/11 12:38:16 by fmesci           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,5 +84,9 @@ int			parse_flags(int argc, char **argv, t_ps *p);
 /* ops_utils.c */
 const char	*op_name(t_op op);
 void		log_op(t_ps *p, t_op op);
+
+/* ops_push.c */
+void		pa(t_ps *p);
+void		pb(t_ps *p);
 
 #endif
