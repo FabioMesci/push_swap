@@ -40,9 +40,10 @@ Goal: each person works on **their own files**, so we never edit the same file a
 | Topic | Decision | Why |
 |---|---|---|
 | Strategy storage | `const char *strategy` (the flag string itself), never `NULL` after `main` | Simple; strings are compared in very few places |
-| Single quoted argument (`"3 2 1"`) | Not supported → `Error` | Subject examples pass numbers as separate arguments |
+| Single quoted argument (`"3 2 1"`) | **Postponed to phase 3** (for now → `Error`) — see [open decisions](#3-open-decisions) | The change is isolated in `parsing.c`: sorting, ops and bench receive an already-built stack |
 | Flags after numbers (`1 2 --bench`) | Not supported → `Error` | Flags are parsed first, then numbers |
 | Repeated strategy flag | `Error` | Ambiguous input |
+| Stack structure | Singly linked list, `t_stack` keeps only `top` and `size` (no `bottom`, no `prev`) | Fewer pointers to keep consistent in the 11 operations → fewer bugs. `ra`/`rra` cost O(n) CPU, irrelevant for n ≤ 500; the subject measures the **number of operations**, which does not change |
 
 ### Still needed before we split the work
 
@@ -86,6 +87,10 @@ These had to be agreed **before** writing the stubs, because they change prototy
 - [x] **Shared `stack_utils.c`** → yes, written by **A** in phase 1, together with the operations.
   A knows the stack internals best after writing the operations. Starts with what the first algorithms need (e.g. position of the minimum, stack size checks); B asks A when a new helper is needed instead of writing a duplicate.
 - [x] **Who is A and who is B** → **A** is the one writing the operations. **B** is the partner.
+- [x] **Stack structure** → keep the singly linked list with only `top` (see the decisions table).
+  `sa`, `pa`, `pb` are O(1); `ra` needs to reach the last node and `rra` the second-to-last, so both are O(n). A `bottom` pointer would make `ra` O(1) but **not** `rra` (you still need the second-to-last); only a doubly linked list fixes both, at the cost of maintaining `prev` everywhere.
+- [ ] **Quoted arguments (`"3 2 1"`, `"3 2" 1`)** → **postponed to phase 3.**
+  The subject leaves argument handling to each group, but its own example `ARG="4 67 3"; ./push_swap $ARG` passes **one** argument in zsh (macOS default shell), so today it prints `Error` there. Idea: treat each `argv[i]` as a string that may contain several numbers separated by spaces. Two options: `ft_split` (must free the array on every path, including errors) or walking the string with a cursor (no `malloc`). Edge cases to decide: `"   "`, `"1  2"`, `" 1 2 "`, `"1 2" 1` (duplicate across arguments), `"--bench 1 2"`. The change must stay inside `parsing.c` so `main.c` and the header remain frozen.
 
 ---
 
@@ -130,6 +135,13 @@ Two levels:
 So `ss` swaps both stacks, prints one line and only increments `ops[OP_SS]`.
 
 Edge cases from the subject: swap/rotate do nothing with fewer than 2 elements; push does nothing if the source is empty. Remember to update `size` on both stacks when pushing.
+
+Pitfalls with the singly linked list (only `top`):
+- After `ra`, the node moved to the end **must** get `next = NULL`; after `rra`, the new last node (old second-to-last) too. Otherwise the list becomes a cycle → infinite loop or double free in `free_stack`.
+- `size` must always be right: the algorithms rely on it (`ra` vs `rra`, chunk sizes…).
+- If `sa` swaps values instead of nodes, swap `index` too.
+- Reaching the last node will be needed in several places (e.g. `sort_small`): put that helper in `stack_utils.c` once.
+- Defense: complexity classes are measured in **operations printed**; each rotation costs O(n) CPU time because of the list, which multiplies run time but not the operation count.
 
 Order of work: `pb`, `pa`, `ra`, `rra` first and merged early (the algorithms use them most), then the rest. B reviews every line before the merge: both of us must be able to explain them in the defense.
 
@@ -195,7 +207,7 @@ Printing numbers without `printf` needs something like `ft_putnbr_fd`: either in
 
 **Phase 0**
 - [x] Open decisions closed
-- [ ] `double disorder;` added to `t_ps`
+- [x] `double disorder;` added to `t_ps`
 - [ ] All prototypes in `push_swap.h`
 - [ ] All stub files created and in `Makefile`, `make` compiles
 - [ ] `execute` calls the full flow
@@ -216,6 +228,7 @@ Printing numbers without `printf` needs something like `ft_putnbr_fd`: either in
 
 **Phase 3**
 - [ ] `sort_adaptive.c` with justified thresholds
+- [ ] Decide quoted arguments (`"3 2 1"`) — see [open decisions](#3-open-decisions); if accepted, change only `parsing.c` and update the decisions table
 - [ ] Op counts checked for 100 and 500 numbers
 - [ ] `README.md` complete (see [section 7](#7-subject-requirements-checklist))
 
@@ -266,6 +279,7 @@ Printing numbers without `printf` needs something like `ft_putnbr_fd`: either in
 
 Ideas for the test script (phase 2, A):
 
+- **Run tests in bash, not zsh** (`#!/bin/bash` in the script). In zsh `$ARG` is not split into words, so `ARG="3 2 1"; ./push_swap $ARG` passes a single argument and prints `Error` while quoted arguments are not supported.
 - Generate random inputs: `shuf -i 0-9999 -n 500`
 - Verify correctness: `./push_swap $ARG | ./docs/checker_Mac $ARG` → must print `OK`
 - Count operations: `./push_swap $ARG | wc -l`
