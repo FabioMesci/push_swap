@@ -6,7 +6,7 @@
 /*   By: fmesci <fmesci@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/10 19:21:41 by fmesci            #+#    #+#             */
-/*   Updated: 2026/11/11 15:51:42 by fmesci           ###   ########.fr       */
+/*   Updated: 2026/11/12 14:17:15 by fmesci           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,4 +27,28 @@ t_node	*stack_last(t_stack *s)
 		cur = cur->next;
 	}
 	return (last);
+}
+
+int	stack_min_pos(t_stack *s)
+{
+	int		pos;
+	int		min;
+	int		min_pos;
+	t_node	*cur;
+
+	cur = s->top;
+	min = cur->value;
+	pos = 0;
+	min_pos = 0;
+	while (cur != NULL)
+	{
+		if (min > cur->value)
+		{
+			min = cur->value;
+			min_pos = pos;
+		}
+		pos++;
+		cur = cur->next;
+	}
+	return (min_pos);
 }
