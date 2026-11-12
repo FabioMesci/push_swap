@@ -6,7 +6,7 @@
 /*   By: fmesci <fmesci@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/06 12:30:57 by fmesci            #+#    #+#             */
-/*   Updated: 2026/11/12 18:52:04 by fmesci           ###   ########.fr       */
+/*   Updated: 2026/11/12 19:26:14 by fmesci           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,5 +115,8 @@ void		dispatch(t_ps *p);
 /* sort_small.c */
 void		sort_small(t_ps *p);
 void		push_min(t_ps *p);
+
+/* sort_simple.c */
+void		sort_simple(t_ps *p);
 
 #endif
