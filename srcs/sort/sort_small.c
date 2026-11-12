@@ -6,7 +6,7 @@
 /*   By: fmesci <fmesci@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/10 19:09:57 by fmesci            #+#    #+#             */
-/*   Updated: 2026/11/12 17:46:17 by fmesci           ###   ########.fr       */
+/*   Updated: 2026/11/12 18:52:12 by fmesci           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static void	sort_three(t_ps *p)
 		sa(p);
 }
 
-static void	push_min(t_ps *p)
+void	push_min(t_ps *p)
 {
 	int	pos;
 	int	size;
