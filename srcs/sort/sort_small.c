@@ -6,7 +6,7 @@
 /*   By: fmesci <fmesci@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/10 19:09:57 by fmesci            #+#    #+#             */
-/*   Updated: 2026/11/12 12:53:27 by fmesci           ###   ########.fr       */
+/*   Updated: 2026/11/12 17:46:17 by fmesci           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,48 @@ static void	sort_three(t_ps *p)
 		sa(p);
 }
 
+static void	push_min(t_ps *p)
+{
+	int	pos;
+	int	size;
+	int	i;
+
+	i = 0;
+	size = p->a.size;
+	pos = stack_min_pos(&p->a);
+	if (pos <= size - pos)
+	{
+		while (i < pos)
+		{
+			ra(p);
+			i++;
+		}
+	}
+	else
+	{
+		while (i < size - pos)
+		{
+			rra(p);
+			i++;
+		}
+	}
+	pb(p);
+}
+
+static void	sort_four(t_ps *p)
+{
+	push_min(p);
+	sort_three(p);
+	pa(p);
+}
+
+static void	sort_five(t_ps *p)
+{
+	push_min(p);
+	sort_four(p);
+	pa(p);
+}
+
 void	sort_small(t_ps *p)
 {
 	int	top;
@@ -45,4 +87,8 @@ void	sort_small(t_ps *p)
 	}
 	else if (p->a.size == 3)
 		sort_three(p);
+	else if (p->a.size == 4)
+		sort_four(p);
+	else if (p->a.size == 5)
+		sort_five(p);
 }
