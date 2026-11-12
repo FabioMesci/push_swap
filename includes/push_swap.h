@@ -6,7 +6,7 @@
 /*   By: fmesci <fmesci@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/06 12:30:57 by fmesci            #+#    #+#             */
-/*   Updated: 2026/11/11 18:21:53 by fmesci           ###   ########.fr       */
+/*   Updated: 2026/11/12 11:34:29 by fmesci           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,5 +106,11 @@ void		ss(t_ps *p);
 
 /* stack_utils.c*/
 t_node		*stack_last(t_stack *s);
+
+/* dispatch.c */
+void		dispatch(t_ps *p);
+
+/* sort_small.c */
+void		sort_small(t_ps *p);
 
 #endif

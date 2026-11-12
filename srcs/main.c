@@ -6,7 +6,7 @@
 /*   By: fmesci <fmesci@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/06 12:07:00 by fmesci            #+#    #+#             */
-/*   Updated: 2026/11/10 18:07:07 by fmesci           ###   ########.fr       */
+/*   Updated: 2026/11/12 11:37:05 by fmesci           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static int	exit_with_error(t_ps *p)
 
 static void	execute(t_ps *p)
 {
-	(void)p;
+	dispatch(p);
 }
 
 int	main(int argc, char **argv)

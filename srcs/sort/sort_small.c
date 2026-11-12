@@ -6,8 +6,13 @@
 /*   By: fmesci <fmesci@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/10 19:09:57 by fmesci            #+#    #+#             */
-/*   Updated: 2026/11/10 19:31:02 by fmesci           ###   ########.fr       */
+/*   Updated: 2026/11/12 11:35:54 by fmesci           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
+
+void	sort_small(t_ps *p)
+{
+	(void)p;
+}

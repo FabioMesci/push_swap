@@ -6,8 +6,14 @@
 /*   By: fmesci <fmesci@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/10 19:09:44 by fmesci            #+#    #+#             */
-/*   Updated: 2026/11/10 19:30:39 by fmesci           ###   ########.fr       */
+/*   Updated: 2026/11/12 11:25:21 by fmesci           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
+
+void	dispatch(t_ps *p)
+{
+	if (p->a.size <= 5)
+		sort_small(p);
+}
