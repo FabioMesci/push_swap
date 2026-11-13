@@ -6,7 +6,7 @@
 /*   By: fmesci <fmesci@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/09 10:23:56 by fmesci            #+#    #+#             */
-/*   Updated: 2026/11/13 15:52:07 by fmesci           ###   ########.fr       */
+/*   Updated: 2026/11/13 15:58:33 by fmesci           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@ static int	add_words(t_stack *a, char **words)
 	t_node	*node;
 
 	i = 0;
+	if (words[i] == NULL)
+		return (0);
 	while (words[i] != NULL)
 	{
 		if (ft_atoi_safe(words[i], &n) == 0)
