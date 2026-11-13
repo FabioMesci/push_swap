@@ -89,7 +89,7 @@ These had to be agreed **before** writing the stubs, because they change prototy
 - [x] **Who is A and who is B** → **A** is the one writing the operations. **B** is the partner.
 - [x] **Stack structure** → keep the singly linked list with only `top` (see the decisions table).
   `sa`, `pa`, `pb` are O(1); `ra` needs to reach the last node and `rra` the second-to-last, so both are O(n). A `bottom` pointer would make `ra` O(1) but **not** `rra` (you still need the second-to-last); only a doubly linked list fixes both, at the cost of maintaining `prev` everywhere.
-- [ ] **Quoted arguments (`"3 2 1"`, `"3 2" 1`)** → **postponed to phase 3.**
+- [x] **Quoted arguments (`"3 2 1"`, `"3 2" 1`)** → **postponed to phase 3.**
   The subject leaves argument handling to each group, but its own example `ARG="4 67 3"; ./push_swap $ARG` passes **one** argument in zsh (macOS default shell), so today it prints `Error` there. Idea: treat each `argv[i]` as a string that may contain several numbers separated by spaces. Two options: `ft_split` (must free the array on every path, including errors) or walking the string with a cursor (no `malloc`). Edge cases to decide: `"   "`, `"1  2"`, `" 1 2 "`, `"1 2" 1` (duplicate across arguments), `"--bench 1 2"`. The change must stay inside `parsing.c` so `main.c` and the header remain frozen.
 
 ---
@@ -214,9 +214,9 @@ Printing numbers without `printf` needs something like `ft_putnbr_fd`: either in
 - [ ] Norminette passes · pushed to `main`
 
 **Phase 1**
-- [ ] A: `pb` · `pa` · `ra` · `rra` (merged first)
-- [ ] A: `stack_utils.c` (first shared helpers)
-- [ ] A: `sa` · `sb` · `ss` · `rb` · `rr` · `rrb` · `rrr`
+- [x] A: `pb` · `pa` · `ra` · `rra` (merged first)
+- [x] A: `stack_utils.c` (first shared helpers)
+- [x] A: `sa` · `sb` · `ss` · `rb` · `rr` · `rrb` · `rrr`
 - [ ] B: review of all operations
 - [ ] B: `index.c` · `disorder.c` · `bench.c`
 - [ ] A: review of index / disorder / bench
@@ -228,7 +228,7 @@ Printing numbers without `printf` needs something like `ft_putnbr_fd`: either in
 
 **Phase 3**
 - [ ] `sort_adaptive.c` with justified thresholds
-- [ ] Decide quoted arguments (`"3 2 1"`) — see [open decisions](#3-open-decisions); if accepted, change only `parsing.c` and update the decisions table
+- [x] Decide quoted arguments (`"3 2 1"`) — see [open decisions](#3-open-decisions); if accepted, change only `parsing.c` and update the decisions table
 - [ ] Op counts checked for 100 and 500 numbers
 - [ ] `README.md` complete (see [section 7](#7-subject-requirements-checklist))
 
