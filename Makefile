@@ -9,6 +9,7 @@ SRCS = srcs/main.c \
 		srcs/stack/stack.c \
 		srcs/stack/stack_utils.c \
 		srcs/utils/utils.c \
+		srcs/utils/ft_split.c \
 		srcs/ops/ops_utils.c \
 		srcs/ops/ops_swap.c \
 		srcs/ops/ops_push.c \

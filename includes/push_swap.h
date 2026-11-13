@@ -6,7 +6,7 @@
 /*   By: fmesci <fmesci@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/06 12:30:57 by fmesci            #+#    #+#             */
-/*   Updated: 2026/11/12 19:26:14 by fmesci           ###   ########.fr       */
+/*   Updated: 2026/11/13 15:17:02 by fmesci           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,5 +118,8 @@ void		push_min(t_ps *p);
 
 /* sort_simple.c */
 void		sort_simple(t_ps *p);
+
+/* ft_split.c */
+char		**ft_split(const char *str, char c);
 
 #endif
