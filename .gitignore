@@ -20,4 +20,4 @@ checker
 *.dSYM/
 
 # Editor
-.vscode/
+.vscode/*.swp

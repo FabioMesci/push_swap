@@ -84,6 +84,12 @@ int			parse_flags(int argc, char **argv, t_ps *p);
 /* index.c */
 int			assign_index(t_stack *stack);
 
+/* disorder.c */
+double		compute_disorder(t_stack *a);
+
+/* bench.c */
+void		print_bench(t_ps *p);
+
 /* ops_utils.c */
 const char	*op_name(t_op op);
 void		log_op(t_ps *p, t_op op);
