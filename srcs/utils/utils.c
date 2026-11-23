@@ -47,3 +47,18 @@ size_t	ft_strlen(const char *str)
 	}
 	return (i);
 }
+
+void	ft_putstr_fd(const char *s, int fd)
+{
+	write(fd, s, ft_strlen(s));
+}
+
+void	ft_putnbr_fd(int n, int fd)
+{
+	char	c;
+
+	if (n >= 10)
+		ft_putnbr_fd(n / 10, fd);
+	c = (n % 10) + '0';
+	write(fd, &c, 1);
+}

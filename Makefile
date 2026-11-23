@@ -21,8 +21,10 @@ SRCS = srcs/main.c \
 		srcs/sort/sort_adaptive.c \
 		srcs/sort/sort_complex.c \
 		srcs/sort/sort_medium.c \
+		srcs/sort/sort_micro.c \
 		srcs/sort/sort_simple.c \
-		srcs/sort/sort_small.c
+		srcs/sort/sort_small.c \
+		srcs/sort/sort_utils.c
 OBJS = $(SRCS:.c=.o)
 
 all: $(NAME)

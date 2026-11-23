@@ -12,31 +12,16 @@
 
 #include "push_swap.h"
 
-static void	put_nbr(int n, int fd)
-{
-	char	c;
-
-	if (n >= 10)
-		put_nbr(n / 10, fd);
-	c = (n % 10) + '0';
-	write(fd, &c, 1);
-}
-
-static void	put_str(const char *s, int fd)
-{
-	write(fd, s, ft_strlen(s));
-}
-
 static void	put_percent(double disorder, int fd)
 {
 	int	hundredths;
 
 	hundredths = (int)(disorder * 10000 + 0.5);
-	put_nbr(hundredths / 100, fd);
+	ft_putnbr_fd(hundredths / 100, fd);
 	write(fd, ".", 1);
 	if (hundredths % 100 < 10)
 		write(fd, "0", 1);
-	put_nbr(hundredths % 100, fd);
+	ft_putnbr_fd(hundredths % 100, fd);
 	write(fd, "%", 1);
 }
 
@@ -57,16 +42,16 @@ static const char	*complexity(t_ps *p)
 
 static void	put_ops(t_ps *p, int from, int to)
 {
-	put_str("[bench]", 2);
+	ft_putstr_fd("[bench]", 2);
 	while (from <= to)
 	{
-		put_str(" ", 2);
-		put_str(op_name(from), 2);
-		put_str(": ", 2);
-		put_nbr(p->ops[from], 2);
+		ft_putstr_fd(" ", 2);
+		ft_putstr_fd(op_name(from), 2);
+		ft_putstr_fd(": ", 2);
+		ft_putnbr_fd(p->ops[from], 2);
 		from++;
 	}
-	put_str("\n", 2);
+	ft_putstr_fd("\n", 2);
 }
 
 void	print_bench(t_ps *p)
@@ -78,15 +63,15 @@ void	print_bench(t_ps *p)
 	i = 0;
 	while (i < OP_COUNT)
 		total += p->ops[i++];
-	put_str("[bench] disorder: ", 2);
+	ft_putstr_fd("[bench] disorder: ", 2);
 	put_percent(p->disorder, 2);
-	put_str("\n[bench] strategy: ", 2);
-	put_str(p->strategy + 2, 2);
-	put_str(" / ", 2);
-	put_str(complexity(p), 2);
-	put_str("\n[bench] total_ops: ", 2);
-	put_nbr(total, 2);
-	put_str("\n", 2);
+	ft_putstr_fd("\n[bench] strategy: ", 2);
+	ft_putstr_fd(p->strategy + 2, 2);
+	ft_putstr_fd(" / ", 2);
+	ft_putstr_fd(complexity(p), 2);
+	ft_putstr_fd("\n[bench] total_ops: ", 2);
+	ft_putnbr_fd(total, 2);
+	ft_putstr_fd("\n", 2);
 	put_ops(p, OP_SA, OP_PB);
 	put_ops(p, OP_RA, OP_RRR);
 }

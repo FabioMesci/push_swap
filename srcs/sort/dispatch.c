@@ -18,4 +18,10 @@ void	dispatch(t_ps *p)
 		sort_small(p);
 	else if (ft_strcmp(p->strategy, "--simple") == 0)
 		sort_simple(p);
+	else if (ft_strcmp(p->strategy, "--medium") == 0)
+		sort_medium(p);
+	else if (ft_strcmp(p->strategy, "--complex") == 0)
+		sort_complex(p);
+	else
+		sort_adaptive(p);
 }

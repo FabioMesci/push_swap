@@ -67,6 +67,8 @@ typedef struct s_ps
 void		ft_bzero(void *s, size_t n);
 int			ft_strcmp(const char *s1, const char *s2);
 size_t		ft_strlen(const char *str);
+void		ft_putstr_fd(const char *s, int fd);
+void		ft_putnbr_fd(int n, int fd);
 
 /* parsing.c */
 int			ft_atoi_safe(const char *str, int *out);
@@ -127,5 +129,22 @@ void		push_min(t_ps *p);
 
 /* sort_simple.c */
 void		sort_simple(t_ps *p);
+
+/* sort_medium.c */
+void		sort_medium(t_ps *p);
+
+/* sort_complex.c */
+void		sort_complex(t_ps *p);
+
+/* sort_utils.c */
+int			max_bits(t_stack *s);
+int			is_ordered(t_stack *s, int len, int asc);
+void		flush_b(t_ps *p, int len);
+
+/* sort_micro.c */
+void		micro_four(t_ps *p, int from_b);
+
+/* sort_adaptive.c */
+void		sort_adaptive(t_ps *p);
 
 #endif
