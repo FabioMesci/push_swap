@@ -21,3 +21,6 @@ checker
 
 # Editor
 .vscode/
+*.swp
+*.swo
+*.swn

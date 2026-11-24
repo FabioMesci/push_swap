@@ -29,6 +29,8 @@ static void	execute(t_ps *p)
 {
 	if (check_if_sorted(&p->a) == 0)
 		dispatch(p);
+	if (p->bench == 1)
+		print_bench(p);
 }
 
 int	main(int argc, char **argv)
@@ -46,6 +48,9 @@ int	main(int argc, char **argv)
 		p.strategy = "--adaptive";
 	if (build_stack(&p.a, argc, argv, start) == 0)
 		return (exit_with_error(&p));
+	if (assign_index(&p.a) == 0)
+		return (exit_with_error(&p));
+	p.disorder = compute_disorder(&p.a);
 	execute(&p);
 	free_all(&p);
 	return (0);
