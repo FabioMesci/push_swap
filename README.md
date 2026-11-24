@@ -1,4 +1,4 @@
-*This project has been created as part of the 42 curriculum by aaries, fmesci.*
+_This project has been created as part of the 42 curriculum by aaries, fmesci._
 
 # push_swap
 
@@ -11,13 +11,13 @@ operations as possible.
 
 Four strategies are available, plus a benchmark mode:
 
-| Flag | Strategy | Complexity (in operations) |
-|---|---|---|
-| `--simple` | selection sort | O(n²) |
-| `--medium` | chunks + extraction of the maximum | O(n√n) |
-| `--complex` | binary partition on the rank bits | O(n log n) |
-| `--adaptive` (default) | picks one of the above from the disorder | see below |
-| `--bench` | prints statistics on `stderr` | - |
+| Flag                   | Strategy                                 | Complexity (in operations) |
+| ---------------------- | ---------------------------------------- | -------------------------- |
+| `--simple`             | selection sort                           | O(n²)                      |
+| `--medium`             | chunks + extraction of the maximum       | O(n√n)                     |
+| `--complex`            | binary partition on the rank bits        | O(n log n)                 |
+| `--adaptive` (default) | picks one of the above from the disorder | see below                  |
+| `--bench`              | prints statistics on `stderr`            | -                          |
 
 ## Instructions
 
@@ -96,14 +96,25 @@ there are ⌈log₂ n⌉ levels, so O(n log n) operations.
 
 ### Adaptive
 
-| Disorder | Strategy | Why |
-|---|---|---|
-| < 0.2 | simple | Selection is cheap on a nearly sorted stack: the minimum is always close to the top, so each selection costs about 1 + its displacement. The total is about 2n + (number of inversions), i.e. close to O(n) when the input is nearly sorted. |
-| 0.2 to < 0.5 | medium | Too disordered for the cheap case, not random enough to need the full partition: O(n√n) with a small constant. |
-| ≥ 0.5 | complex | Random or reversed input, where the O(n log n) bound matters. |
+| Disorder     | Strategy | Why                                                                                                                                                                                                                                                                                                           |
+| ------------ | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| < 0.2        | simple   | On a nearly sorted stack the minimum is almost always close to the top, so each selection needs very few rotations: with only a few numbers out of place the total is a small multiple of n (500 numbers, disorder 0.83%: 1860 operations, about 3.7·n). The cost grows with the number of misplaced numbers. |
+| 0.2 to < 0.5 | medium   | Too disordered for the cheap case, not random enough to need the full partition: O(n√n) with a small constant.                                                                                                                                                                                                |
+| ≥ 0.5        | complex  | Random or reversed input, where the O(n log n) bound matters.                                                                                                                                                                                                                                                 |
 
-The thresholds follow the subject: 0.2 is where the cost of selection stops
-being close to linear, and 0.5 is the disorder of a random permutation.
+**Why these thresholds.** The three regimes and their target complexities
+(O(n), O(n√n), O(n log n)) come from the subject. 0.5 is the expected disorder
+of a random permutation, so above it the input carries no useful order and the
+general O(n log n) method is the right one. Below 0.2 most of the input is
+already ordered, so a method that only has to fix a few misplaced numbers is
+used.
+
+**A note on O(n).** A strict O(n) bound for _every_ input with disorder < 0.2
+is impossible. A disorder of 0.19 still allows about 0.19 · n²/2 inversions,
+and there are so many permutations with that many inversions that any
+algorithm needs Ω(n log n) operations in the worst case (each operation is one
+of 11 choices, so it carries at most log₂ 11 bits of information). Linear cost
+can only be reached on inputs where few numbers are out of place.
 
 Measured on random inputs (operations): 100 numbers: simple about 1300-1500,
 medium about 570, complex about 760. 500 numbers: simple about 32000,
@@ -111,12 +122,12 @@ medium about 5000, complex about 5300 (40 runs: maximum 5329).
 
 ## Complexity summary
 
-| | Time (operations) | Extra space |
-|---|---|---|
-| simple | O(n²) | O(n) |
-| medium | O(n√n) | O(n) |
-| complex | O(n log n) | O(n) + O(log n) recursion |
-| adaptive | that of the strategy it picks | same |
+|          | Time (operations)             | Extra space               |
+| -------- | ----------------------------- | ------------------------- |
+| simple   | O(n²)                         | O(n)                      |
+| medium   | O(n√n)                        | O(n)                      |
+| complex  | O(n log n)                    | O(n) + O(log n) recursion |
+| adaptive | that of the strategy it picks | same                      |
 
 Space: every number lives in exactly one list node (`a` and `b` together hold
 n nodes), and the rank array used by `assign_index` is freed right after.
@@ -128,12 +139,15 @@ printed**, as the subject asks.
 ## Project layout
 
 ```
-srcs/main.c          entry point
-srcs/parsing/        flags and number parsing
-srcs/stack/          linked-list stack and helpers
-srcs/ops/            the 11 operations (print + count)
-srcs/analysis/       ranks, disorder, --bench
-srcs/sort/           dispatch, small, simple, medium, complex (+ micro, utils), adaptive
+includes/push_swap.h  structures, enums and prototypes
+srcs/main.c           entry point
+srcs/parsing/         flags and number parsing
+srcs/stack/           linked-list stack and helpers
+srcs/utils/           string and output helpers, ft_split
+srcs/ops/             the 11 operations (print + count)
+srcs/analysis/        ranks, disorder, --bench
+srcs/sort/            dispatch, small, simple, medium, complex (+ micro, utils),
+                      adaptive
 ```
 
 ## Contributions
@@ -146,6 +160,19 @@ srcs/sort/           dispatch, small, simple, medium, complex (+ micro, utils), 
 ## Resources
 
 - 42 subject for push_swap.
-- Notes on radix sort and on partition-based sorting (quicksort/radix exchange).
-- AI assistance (Claude) was used to help write `sort_complex`, to review the
-  code, to run tests and to draft this README.
+- [Big O notation](https://en.wikipedia.org/wiki/Big_O_notation): the
+  complexity classes used to describe each strategy.
+- [Inversion (discrete mathematics)](<https://en.wikipedia.org/wiki/Inversion_(discrete_mathematics)>):
+  inversions and how they measure disorder.
+- [Selection sort](https://en.wikipedia.org/wiki/Selection_sort): base of the
+  simple strategy.
+- [Radix sort](https://en.wikipedia.org/wiki/Radix_sort) and
+  [Quicksort](https://en.wikipedia.org/wiki/Quicksort): base of the binary
+  partition used by the complex strategy.
+- [Breadth-first search](https://en.wikipedia.org/wiki/Breadth-first_search):
+  used to compute the optimal 4-number sequences in `sort_micro.c`.
+- T. H. Cormen, C. E. Leiserson, R. L. Rivest, C. Stein, _Introduction to
+  Algorithms_ (MIT Press): sorting algorithms and lower bounds for sorting.
+
+**AI usage.** AI was used to reinforce our understanding of the concepts behind the project (algorithmic complexity, the sorting algorithms and their adaptation to two stacks), to review the code against the subject and
+to help draft this README.
