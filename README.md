@@ -15,7 +15,7 @@ Four strategies are available, plus a benchmark mode:
 | ---------------------- | ---------------------------------------- | -------------------------- |
 | `--simple`             | selection sort                           | O(n²)                      |
 | `--medium`             | chunks + extraction of the maximum       | O(n√n)                     |
-| `--complex`            | binary partition on the rank bits        | O(n log n)                 |
+| `--complex`            | 3-way quicksort on two stacks            | O(n log n)                 |
 | `--adaptive` (default) | picks one of the above from the disorder | see below                  |
 | `--bench`              | prints statistics on `stderr`            | -                          |
 
@@ -71,28 +71,55 @@ Both phases cost O(√n) operations per number, hence O(n√n).
 
 ### Complex: O(n log n)
 
-A binary partition that works from the top bit of the rank down (similar to a
-radix exchange / quicksort on bits):
+A 3-way quicksort adapted to two stacks. The work is done on **blocks**: a
+block is a set of `n` consecutive ranks `[lo, lo + n)` stored together in one
+of four places:
 
-- `sort_a(len, bit)`: on the `len` top numbers of `a`, a number whose bit is 0
-  goes to `b` (`pb`), a number whose bit is 1 stays in `a` (`ra`). The ones are
-  put back on top with `rra`, then the group is sorted recursively with the
-  next bit.
-- `sort_b(len, bit)` is the mirror image: ones go to `a` (`pa`), zeros stay in
-  `b` (`rb`, restored with `rrb`). The ones are sorted in `a`, then the zeros
-  are sorted and moved to `a`.
-- Shortcuts: a group that is already ordered is only moved, a group of two
-  needs at most one `sa`, and when a group is the whole stack no restore
-  rotation is needed.
-- Groups of exactly 4 numbers (the usual size near the bottom of the
-  recursion) are not partitioned any more: `sort_micro.c` holds, for each of
-  the 24 possible orders, the shortest sequence of operations (computed once by
-  an exhaustive breadth-first search over all legal moves, with the rest of the
-  stacks left untouched). This saves about 6% of all operations and is what
-  brings 500 numbers under 5500.
+- `TA` top of `a`, `BA` bottom of `a`,
+- `TB` top of `b`, `BB` bottom of `b`.
 
-Every level of the recursion touches each number a constant number of times and
-there are ⌈log₂ n⌉ levels, so O(n log n) operations.
+Using both ends of both stacks is what saves operations: a block parked at the
+bottom of a stack is not touched until its turn comes, so numbers do not travel
+back and forth between `a` and `b`.
+
+`sort_block(loc, lo, n)` puts the block on top of `a`, sorted, above the larger
+numbers that are already placed:
+
+1. Split the block by rank into three thirds: **small** `[lo, lo + n/3)`,
+   **medium** `[lo + n/3, lo + 2n/3)` and **large** `[lo + 2n/3, lo + n)`.
+2. Take the `n` numbers one by one from the block (from the top, or from the
+   bottom with `rra`/`rrb`) and send each one to the place that depends on
+   where the block is:
+
+   | block is in | large | medium | small |
+   | ----------- | ----- | ------ | ----- |
+   | `TA`        | `BA`  | `TB`   | `BB`  |
+   | `BA`        | `TA`  | `TB`   | `BB`  |
+   | `TB`        | `TA`  | `BA`   | `BB`  |
+   | `BB`        | `TA`  | `BA`   | `TB`  |
+
+3. Sort the three new blocks recursively in this order: **large, medium,
+   small**. Each one ends on top of `a` and above the previous ones, so when
+   the last (small) block is done, `a` is sorted.
+
+Shortcuts and base cases:
+
+- A block of 1 number is moved to the top of `a` (`move_elem`).
+- A block that is already ordered is left alone (in `a`) or moved with `pa`
+  (in `b`, when it is in descending order).
+- A block of 2 numbers on top of a stack costs one `sa`, or `sb` + 2 `pa`.
+- A block at the bottom of a stack that is the whole stack is treated as being
+  on top (`to_top`), so no extra rotations are spent.
+
+Moving one number costs at most 3 operations (for example `rrb`, `pa`, `ra`),
+a constant. Every level of the recursion moves each number once, and the block
+size is divided by 3 at each level, so there are about log₃ n levels:
+O(n log n) operations.
+
+Why not a binary partition (on the bits of the rank, or at the median)? We
+tried both: with only two parts every level has to bring most numbers back
+across `a` and `b`, which costs about 760-780 operations for 100 numbers, above
+the 700 target. The three parts with four places cut that to about 680.
 
 ### Adaptive
 
@@ -117,8 +144,11 @@ of 11 choices, so it carries at most log₂ 11 bits of information). Linear cost
 can only be reached on inputs where few numbers are out of place.
 
 Measured on random inputs (operations): 100 numbers: simple about 1300-1500,
-medium about 570, complex about 760. 500 numbers: simple about 32000,
-medium about 5000, complex about 5300 (40 runs: maximum 5329).
+medium about 570, complex about 680 (200 runs: maximum 688). 500 numbers:
+simple about 32000, medium about 5000, complex about 4630 (maximum about 4650).
+In `--adaptive` a random input has about 50% disorder, so roughly half of the
+random inputs go to medium and half to complex; with 500 numbers the worst case
+seen was 5220, still below 5500.
 
 ## Complexity summary
 
@@ -131,7 +161,8 @@ medium about 5000, complex about 5300 (40 runs: maximum 5329).
 
 Space: every number lives in exactly one list node (`a` and `b` together hold
 n nodes), and the rank array used by `assign_index` is freed right after.
-`complex` recurses at most once per bit of the rank, so at most 31 levels deep.
+`complex` divides the block size by 3 at each level, so the recursion is about
+log₃ n levels deep.
 The cost of one operation on the linked list is O(1) except `ra` and `rra`
 which are O(n) in CPU time; the complexity classes above count **operations
 printed**, as the subject asks.
@@ -139,14 +170,14 @@ printed**, as the subject asks.
 ## Project layout
 
 ```
-includes/push_swap.h  structures, enums and prototypes
+includes/push_swap.h  structures, block position constants and prototypes
 srcs/main.c           entry point
 srcs/parsing/         flags and number parsing
 srcs/stack/           linked-list stack and helpers
 srcs/utils/           string and output helpers, ft_split
 srcs/ops/             the 11 operations (print + count)
 srcs/analysis/        ranks, disorder, --bench
-srcs/sort/            dispatch, small, simple, medium, complex (+ micro, utils),
+srcs/sort/            dispatch, small, simple, medium, complex (+ move, utils),
                       adaptive
 ```
 
@@ -166,13 +197,9 @@ srcs/sort/            dispatch, small, simple, medium, complex (+ micro, utils),
   inversions and how they measure disorder.
 - [Selection sort](https://en.wikipedia.org/wiki/Selection_sort): base of the
   simple strategy.
-- [Radix sort](https://en.wikipedia.org/wiki/Radix_sort) and
-  [Quicksort](https://en.wikipedia.org/wiki/Quicksort): base of the binary
+- [Quicksort](https://en.wikipedia.org/wiki/Quicksort): base of the 3-way
   partition used by the complex strategy.
-- [Breadth-first search](https://en.wikipedia.org/wiki/Breadth-first_search):
-  used to compute the optimal 4-number sequences in `sort_micro.c`.
 - T. H. Cormen, C. E. Leiserson, R. L. Rivest, C. Stein, _Introduction to
   Algorithms_ (MIT Press): sorting algorithms and lower bounds for sorting.
 
-**AI usage.** AI was used to reinforce our understanding of the concepts behind the project (algorithmic complexity, the sorting algorithms and their adaptation to two stacks), to review the code against the subject and
-to help draft this README.
+**AI usage.** AI was used to reinforce our understanding of the concepts behind the project (algorithmic complexity, the sorting algorithms and their adaptation to two stacks), to review the code against the subject and to help draft this README.
