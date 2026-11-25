@@ -6,7 +6,7 @@
 /*   By: fmesci <fmesci@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/06 12:30:57 by fmesci            #+#    #+#             */
-/*   Updated: 2026/11/25 12:40:36 by fmesci           ###   ########.fr       */
+/*   Updated: 2026/11/25 13:14:03 by fmesci           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,12 +142,8 @@ int			elem_index(t_ps *p, int loc);
 void		move_elem(t_ps *p, int loc, int dest);
 
 /* sort_utils.c */
-int			max_bits(t_stack *s);
 int			is_ordered(t_stack *s, int len, int asc);
 void		flush_b(t_ps *p, int len);
-
-/* sort_micro.c */
-void		micro_four(t_ps *p, int from_b);
 
 /* sort_adaptive.c */
 void		sort_adaptive(t_ps *p);
