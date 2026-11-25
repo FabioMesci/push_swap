@@ -21,6 +21,7 @@ SRCS = srcs/main.c \
 		srcs/sort/dispatch.c \
 		srcs/sort/sort_adaptive.c \
 		srcs/sort/sort_complex.c \
+		srcs/sort/sort_complex_move.c \
 		srcs/sort/sort_medium.c \
 		srcs/sort/sort_micro.c \
 		srcs/sort/sort_simple.c \

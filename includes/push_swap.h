@@ -6,7 +6,7 @@
 /*   By: fmesci <fmesci@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/06 12:30:57 by fmesci            #+#    #+#             */
-/*   Updated: 2026/11/24 16:56:42 by fmesci           ###   ########.fr       */
+/*   Updated: 2026/11/25 12:40:36 by fmesci           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,11 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <limits.h>
+
+# define TA 0
+# define BA 1
+# define TB 2
+# define BB 3
 
 typedef enum e_op
 {
@@ -46,13 +51,6 @@ typedef struct s_stack
 	int		size;
 }	t_stack;
 
-/*
-** strategy: despues de main nunca es NULL. Valores posibles (exactos):
-**   "--simple"   O(n^2)
-**   "--medium"   O(n sqrt n)
-**   "--complex"  O(n log n)
-**   "--adaptive" segun el indice de desorden (por defecto)
-*/
 typedef struct s_ps
 {
 	t_stack		a;
@@ -138,6 +136,10 @@ void		sort_medium(t_ps *p);
 
 /* sort_complex.c */
 void		sort_complex(t_ps *p);
+
+/* sort_complex_move.c */
+int			elem_index(t_ps *p, int loc);
+void		move_elem(t_ps *p, int loc, int dest);
 
 /* sort_utils.c */
 int			max_bits(t_stack *s);
