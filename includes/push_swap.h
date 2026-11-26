@@ -6,7 +6,7 @@
 /*   By: fmesci <fmesci@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/06 12:30:57 by fmesci            #+#    #+#             */
-/*   Updated: 2026/11/25 13:14:03 by fmesci           ###   ########.fr       */
+/*   Updated: 2026/11/25 18:43:01 by fmesci           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ typedef struct s_ps
 	const char	*strategy;
 	int			bench;
 	double		disorder;
+	int			silent;
 }	t_ps;
 
 /* utils.c */

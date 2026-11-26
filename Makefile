@@ -1,10 +1,10 @@
 NAME = push_swap
+CHECKER = checker
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -I includes
 RM = rm -f
 
-SRCS = srcs/main.c \
-		srcs/parsing/flags.c \
+SRCS = srcs/parsing/flags.c \
 		srcs/parsing/parsing.c \
 		srcs/stack/stack.c \
 		srcs/stack/stack_utils.c \
@@ -26,22 +26,34 @@ SRCS = srcs/main.c \
 		srcs/sort/sort_simple.c \
 		srcs/sort/sort_small.c \
 		srcs/sort/sort_utils.c
+MAIN = srcs/main.c
+BONUS_SRCS = bonus/checker_bonus.c \
+		bonus/get_next_line_bonus.c \
+		bonus/get_next_line_utils_bonus.c
+
 OBJS = $(SRCS:.c=.o)
+MAIN_OBJ = $(MAIN:.c=.o)
+BONUS_OBJS = $(BONUS_SRCS:.c=.o)
 
 all: $(NAME)
 
-$(NAME): $(OBJS)
-	$(CC) $(CFLAGS) $(OBJS) -o $(NAME)
+$(NAME): $(OBJS) $(MAIN_OBJ)
+	$(CC) $(CFLAGS) $(OBJS) $(MAIN_OBJ) -o $(NAME)
 
-%.o: %.c includes/push_swap.h
+bonus: $(CHECKER)
+
+$(CHECKER): $(OBJS) $(BONUS_OBJS)
+	$(CC) $(CFLAGS) $(OBJS) $(BONUS_OBJS) -o $(CHECKER)
+
+%.o: %.c includes/push_swap.h includes/header_bonus.h
 	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	$(RM) $(OBJS)
+	$(RM) $(OBJS) $(MAIN_OBJ) $(BONUS_OBJS)
 
 fclean: clean
-	$(RM) $(NAME)
+	$(RM) $(NAME) $(CHECKER)
 
 re: fclean all
 
-.PHONY: clean fclean re all
+.PHONY: clean fclean re all bonus

@@ -6,7 +6,7 @@
 /*   By: fmesci <fmesci@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/10 17:02:13 by fmesci            #+#    #+#             */
-/*   Updated: 2026/11/10 18:06:56 by fmesci           ###   ########.fr       */
+/*   Updated: 2026/11/25 18:48:01 by fmesci           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,10 @@ void	log_op(t_ps *p, t_op op)
 	const char	*name;
 
 	name = op_name(op);
-	write(1, name, ft_strlen(name));
-	write(1, "\n", 1);
+	if (p->silent == 0)
+	{
+		write(1, name, ft_strlen(name));
+		write(1, "\n", 1);
+	}
 	p->ops[op] = p->ops[op] + 1;
 }

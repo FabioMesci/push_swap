@@ -29,7 +29,9 @@ make
 - Flags must come **before** the numbers; one strategy flag at most.
 - No arguments: prints nothing. Invalid input (non-integer, overflow, duplicate,
   unknown flag): `Error` on `stderr`, exit code 1.
-- Verify a result with a checker: `./push_swap $ARG | ./checker_linux $ARG`.
+- Verify a result with a checker: `./push_swap $ARG | ./checker $ARG` (see the
+  [Bonus](#bonus-the-checker-program) section), or with the checker provided by
+  42: `./push_swap $ARG | ./checker_linux $ARG`.
 - `--bench` output (on `stderr`, so it never mixes with the operations):
 
 ```
@@ -39,6 +41,32 @@ make
 [bench] sa: 0 sb: 0 ss: 0 pa: 7 pb: 7
 [bench] ra: 1 rb: 4 rr: 0 rra: 0 rrb: 2 rrr: 0
 ```
+
+## Bonus: the checker program
+
+`checker` reads the stack `a` from its arguments, then reads a list of
+instructions from the standard input (one per line, until EOF), executes them
+and tells whether they sort the stack.
+
+```
+make bonus
+ARG="4 67 3 87 23"; ./push_swap $ARG | ./checker $ARG
+```
+
+- `OK` on `stdout`: `a` is sorted and `b` is empty after all the instructions.
+- `KO` on `stdout`: any other case.
+- `Error` on `stderr` (exit code 1): non-integer or overflowing argument,
+  duplicate, unknown or badly formatted instruction (the line must be exactly
+  an instruction followed by `\n`).
+- No arguments: prints nothing.
+- Run by hand, type the instructions and finish with `Ctrl+D` (EOF).
+  To see the instructions while piping: `./push_swap $ARG | tee /dev/stderr | ./checker $ARG`.
+
+The checker reuses the stack, parsing and operation code of `push_swap`
+(everything except `srcs/main.c`). The operations do not print anything in the
+checker: `t_ps` has a `silent` flag that `log_op` checks before writing.
+Instructions are read with `get_next_line`, which keeps reading until EOF even
+after an invalid instruction so its internal buffer is always freed.
 
 ## How it works
 
@@ -171,6 +199,8 @@ printed**, as the subject asks.
 
 ```
 includes/push_swap.h  structures, block position constants and prototypes
+includes/header_bonus.h  checker prototypes and get_next_line (bonus)
+bonus/                checker and get_next_line (bonus, `make bonus`)
 srcs/main.c           entry point
 srcs/parsing/         flags and number parsing
 srcs/stack/           linked-list stack and helpers
@@ -184,7 +214,8 @@ srcs/sort/            dispatch, small, simple, medium, complex (+ move, utils),
 ## Contributions
 
 - **fmesci**: parsing and flags, stack and stack helpers, the 11 operations,
-  `dispatch`, `sort_small`, `sort_simple`, project structure and Makefile.
+  `dispatch`, `sort_small`, `sort_simple`, project structure, Makefile and the
+  bonus `checker`.
 - **aaries**: `assign_index`, `compute_disorder`, `--bench`, `sort_medium`,
   `sort_complex`, `sort_adaptive`.
 
